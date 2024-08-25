@@ -36,13 +36,20 @@ Route::get('/contact', function () {
     return view('contact');
 });
 
-Route::post('/posts', 'PostController@store');
-Route::get('/posts/admin', 'PostController@admin');
-Route::get('/posts/create', 'PostController@create');
-Route::get('/posts/show/{post}', 'PostController@show');
-// {post} 雖是帶 id，實際 laravel會自動轉換成 Post model，store、show、update、destroy 是照 laravel 的命名慣例
-Route::get('/posts/{post}', 'PostController@show');
-Route::put('/posts/{post}', 'PostController@update');
-Route::delete('/posts/{post}', 'PostController@destroy');
-Route::get('/posts/{post}/edit', 'PostController@edit');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/posts/admin', 'PostController@admin');
+    Route::get('/posts/create', 'PostController@create');
+    // {post} 雖是帶 id，實際 laravel會自動轉換成 Post model，store、show、update、destroy 是照 laravel 的命名慣例
+    Route::get('/posts/{post}/edit', 'PostController@edit');
+    Route::post('/posts', 'PostController@store');
+    Route::get('/posts/show/{post}', 'PostController@show');
+    Route::put('/posts/{post}', 'PostController@update');
+    Route::delete('/posts/{post}', 'PostController@destroy');
+});
+
 Route::get('/posts', 'PostController@index');
+Route::get('/posts/{post}', 'PostController@show');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

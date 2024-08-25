@@ -20,13 +20,17 @@
 @section('content')
     <div class="page-content">
         <div class="container">
-            <div class="col-2 clearfix toolbox">
+            <div class="clearfix toolbox">
                 <a href="/posts/create" class="btn btn-primary pull-right">create post</a>
             </div>
             <ul class="list-group">
                 @foreach ($posts as $key => $post)
                     <li class="list-group-item claerfix">
-                        {{ $post->title }}
+                        <div class="pull-left">
+                            <div class="title">{{ $post->title }}</div>
+                            {{-- 因在 Post.php 有定義 $this->belongsTo('App\User'); 所以可以用 post 取得 user 表的名稱 --}}
+                            <small class="author">{{ $post->user->name }}</small>
+                        </div>
                         <span class="pull-right">
                             <a href="/posts/show/{{ $post->id }}" class="btn btn-default">View</a>
                             <a href="/posts/{{ $post->id }}/edit" class="btn btn-primary">Edit</a>
