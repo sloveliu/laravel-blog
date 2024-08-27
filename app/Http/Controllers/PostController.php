@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Post;
+use App\Http\Requests\StoreBlogPost;
 
 class PostController extends Controller
 {
@@ -22,16 +23,25 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('posts.create');
+        $post = new Post;
+        return view('posts.create', ['post' => $post]);
     }
 
-    public function store(Request $request) {
+    // 方法一、直接寫 validate 的規則
+    // public function store(Request $request) {
+    //     $request->validate([
+    //         'title' => 'required|string|max:255',
+    //         'content' => 'required|string',
+    //     ]);
+    // 方法二、透過 StoreBlogPost 來驗證資料，完成再執行 store 方法
+    public function store(StoreBlogPost $request)
+    {
         $post = new Post;
         $post->fill($request->all());
         // 取得用戶 id 一起寫進 db
         $post->user_id = Auth::id();
         $post->save();
-        return redirect('/posts');
+        return redirect('/posts/admin');
     }
 
     // 透過 Post model，laravel 會自動去處理資料
@@ -49,7 +59,8 @@ class PostController extends Controller
         return view('posts.edit', ['post' => $post]);
     }
 
-    public function update(Request $request, Post $post) {
+    public function update(StoreBlogPost $request, Post $post)
+    {
         $post->fill($request->all());
         $post->save();
         return redirect('/posts/admin');
