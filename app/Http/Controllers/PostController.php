@@ -6,18 +6,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Post;
 
-class PostController extends Controller {
-    public function index() {
+class PostController extends Controller
+{
+    public function index()
+    {
         $posts = Post::all();
         return view('posts.index', ['posts' => $posts]);
     }
 
-    public function admin() {
+    public function admin()
+    {
         $posts = Post::all();
         return view('posts.admin', ['posts' => $posts]);
     }
 
-    public function create() {
+    public function create()
+    {
         return view('posts.create');
     }
 
@@ -31,7 +35,8 @@ class PostController extends Controller {
     }
 
     // 透過 Post model，laravel 會自動去處理資料
-    public function show(Post $post) {
+    public function show(Post $post)
+    {
         // 檢查是否有登入
         if (Auth::check())
             return view('posts.showByAdmin', ['post' => $post]);
@@ -39,7 +44,8 @@ class PostController extends Controller {
             return view('posts.show', ['post' => $post]);
     }
 
-    public function edit(Post $post) {
+    public function edit(Post $post)
+    {
         return view('posts.edit', ['post' => $post]);
     }
 
@@ -49,7 +55,8 @@ class PostController extends Controller {
         return redirect('/posts/admin');
     }
 
-    public function destroy(Post $post) {
+    public function destroy(Post $post)
+    {
         $post->delete();
         // return redirect('/posts/admin');
     }
