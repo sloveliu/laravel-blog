@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.app')
 
 @section('page-title')
     <section class="page-title">
@@ -7,9 +7,9 @@
                 <div class="col-md-12">
                     <h4 class="text-uppercase">Blog Admin Panel</h4>
                     <ol class="breadcrumb">
-                        <li><a href="/">Home</a>
+                        <li class="breadcrumb-item"><a href="/">Home</a>
                         </li>
-                        <li class="active">Blog Admin Panel</li>
+                        <li class="breadcrumb-item active">Blog Admin Panel</li>
                     </ol>
                 </div>
             </div>
@@ -20,19 +20,19 @@
 @section('content')
     <div class="page-content">
         <div class="container">
-            <div class="clearfix toolbox">
-                <a href="/posts/create" class="btn btn-primary pull-right">create post</a>
+            <div class="mb-3 text-right">
+                <a href="/posts/create" class="btn btn-primary">create post</a>
             </div>
             <ul class="list-group">
                 @foreach ($posts as $key => $post)
                     <li class="list-group-item claerfix">
-                        <div class="pull-left">
+                        <div class="float-left">
                             <div class="title">{{ $post->title }}</div>
                             {{-- 因在 Post.php 有定義 $this->belongsTo('App\User'); 所以可以用 post 取得 user 表的名稱 --}}
                             <small class="author">{{ $post->user->name }}</small>
                         </div>
-                        <span class="pull-right">
-                            <a href="/posts/show/{{ $post->id }}" class="btn btn-default">View</a>
+                        <span class="float-right">
+                            <a href="/posts/show/{{ $post->id }}" class="btn btn-secondary">View</a>
                             <a href="/posts/{{ $post->id }}/edit" class="btn btn-primary">Edit</a>
                             <button class="btn btn-danger" onclick="deletePost({{ $post->id }})">Delete</button>
                         </span>

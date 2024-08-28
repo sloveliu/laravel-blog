@@ -26,8 +26,8 @@
     </div>
     <div class="form-group">
         <label for="contentInput">Content</label>
-        <textarea id="contentInput" type="password" class="form-control" name="content" row="8" cols="80">{{ $post->content }}</textarea>
+        <textarea id="contentInput" class="form-control" name="content" rows="8" cols="80">{{ $post->content }}</textarea>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
-    <button type="button" class="btn btn-default" onclick="window.history.back()">Cancel</button>
+    <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
 </form>
