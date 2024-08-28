@@ -5,7 +5,7 @@
  */
 
 // Todo 之後改 5
-require('./bootstrap');
+// require('./bootstrap');
 
 window.Vue = require('vue');
 
@@ -31,33 +31,3 @@ window.Vue = require('vue');
 // const app = new Vue({
 //     el: '#app',
 // });
-
-// const deletePost = id => {
-// 改成全域宣告 = document.deletePost
-deletePost = id => {
-  const ok = confirm('Are you sure you want to delete this post?');
-  if (!ok) return;
-  const actionUrl = `/posts/${id}`;
-  // 方法 1 透過 form 送出
-  // const deleteForm = document.getElementById('deleteForm');
-  // deleteForm.action = actionUrl;
-  // deleteForm.submit();
-  // 方法 2 透過 fetch 送出
-  // 要先在 head 裡面加入 csrf 的 meta 標籤
-  fetch(actionUrl, {
-    method: "DELETE",
-    // Todo 用請求攔截器處理 header
-    headers: {
-      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-    }
-  })
-    .then(response => {
-      if (response.status !== 200) {
-        console.log("response.status", response.status);
-      }
-    })
-    .catch(error => {
-      console.error("Error:", error);
-    });
-  location.href = "/posts/admin";
-};

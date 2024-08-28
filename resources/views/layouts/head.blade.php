@@ -25,4 +25,4 @@
 <link rel="stylesheet" href="/assets/css/style.css">
 <link rel="stylesheet" href="/assets/css/default-theme.css">
 {{-- 加入自訂的 css --}}
-<link rel="stylesheet" href="/css/app.css">
+<link rel="stylesheet" href="/css/frontend.css">
