@@ -55,9 +55,9 @@ deletePost = id => {
       if (response.status !== 200) {
         console.log("response.status", response.status);
       }
+      location.href = "/posts/admin";
     })
     .catch(error => {
       console.error("Error:", error);
     });
-  location.href = "/posts/admin";
 };
