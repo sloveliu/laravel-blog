@@ -45,6 +45,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/posts/show/{post}', 'PostController@show');
     Route::put('/posts/{post}', 'PostController@update');
     Route::delete('/posts/{post}', 'PostController@destroy');
+    // 建立除了 show 以外的 route https://laravel.tw/docs/5.2/controllers
+    Route::resource('categories', 'CategoryController')->except(['show']);
 });
 
 Route::get('/posts', 'PostController@index');

@@ -61,3 +61,25 @@ deletePost = id => {
       console.error("Error:", error);
     });
 };
+
+deleteCategory = id => {
+  const ok = confirm('Are you sure you want to delete this category?');
+  if (!ok) return;
+  const actionUrl = `/categories/${id}`;
+  fetch(actionUrl, {
+    method: "DELETE",
+    // Todo 用請求攔截器處理 header
+    headers: {
+      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+    }
+  })
+    .then(response => {
+      if (response.status !== 200) {
+        console.log("response.status", response.status);
+      }
+      location.href = "/categories";
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+};
