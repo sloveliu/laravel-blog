@@ -29,7 +29,10 @@
                         <div class="float-left">
                             <div class="title">{{ $post->title }}</div>
                             {{-- 因在 Post.php 有定義 $this->belongsTo('App\User'); 所以可以用 post 取得 user 表的名稱 --}}
-                            <small class="author">{{ $post->user->name }}</small>
+                            @if (isset($post->category))
+                                <small class="d-block text-muted">{{ $post->category->name }}</small>
+                            @endif
+                            <small>{{ $post->user->name }}</small>
                         </div>
                         <span class="float-right">
                             <a href="/posts/show/{{ $post->id }}" class="btn btn-secondary">View</a>
