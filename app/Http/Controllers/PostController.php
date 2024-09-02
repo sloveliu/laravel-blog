@@ -60,8 +60,10 @@ class PostController extends Controller
         // 檢查是否有登入
         if (Auth::check())
             return view('posts.showByAdmin', ['post' => $post]);
-        else
-            return view('posts.show', ['post' => $post]);
+        else {
+            $categories = Category::all();
+            return view('posts.show', ['post' => $post, 'categories' => $categories]);
+        }
     }
 
     public function edit(Post $post)
