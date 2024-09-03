@@ -19,4 +19,9 @@ class Post extends Model
         // 一篇文章屬於某個 Category
         return $this->belongsTo('App\Category');
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
 }
