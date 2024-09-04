@@ -14,15 +14,19 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        $categories = Category::all();
-        return view('posts.index', ['posts' => $posts, 'categories' => $categories]);
+        return view('posts.index', ['posts' => $posts]);
     }
 
     public function indexWithCategory(Category $category)
     {
         $posts = Post::where('category_id', $category->id)->get();
-        $categories = Category::all();
-        return view('posts.index', ['posts' => $posts, 'categories' => $categories]);
+        return view('posts.index', ['posts' => $posts]);
+    }
+
+    public function indexWithTag(Tag $tag)
+    {
+        $posts = $tag->posts;
+        return view('posts.index', ['posts' => $posts]);
     }
 
     public function admin()
@@ -65,7 +69,8 @@ class PostController extends Controller
     public function show(Post $post)
     {
         $categories = Category::all();
-        return view('posts.show', ['post' => $post, 'categories' => $categories]);
+        $tags = Tag::all();
+        return view('posts.show', ['post' => $post, 'categories' => $categories, 'tags' => $tags]);
     }
 
     public function showByAdmin(Post $post)

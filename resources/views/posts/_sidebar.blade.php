@@ -1,3 +1,9 @@
+@php
+    // 加上 \ 才會從專案最底層開始找，否則從當前目錄找
+    $categories = \App\Category::all();
+    // tag 有文章的才取出，posts 關聯定義在 Tag model。withCount 計算 posts 數量會自動生成 property: posts_count
+    $tags = \App\Tag::has('posts')->withCount('posts')->orderBy('posts_count', 'desc')->get();
+@endphp
 <!--latest post widget-->
 <div class="widget">
     <div class="heading-title-alt text-left heading-border-bottom">
@@ -79,14 +85,12 @@
     <div class="heading-title-alt text-left heading-border-bottom">
         <h6 class="text-uppercase">tag cloud</h6>
     </div>
-    <div class="widget-tags">
-        <a href="">Portfolio</a>
-        <a href="">Design</a>
-        <a href="">Link</a>
-        <a href="">Gallery</a>
-        <a href="">Video</a>
-        <a href="">Clean</a>
-        <a href="">Retina</a>
-    </div>
+    @if ($tags->count() > 0)
+        <div class="widget-tags">
+            @foreach ($tags as $tag)
+                <a href="/posts/tag/{{ $tag->id }}">{{ $tag->name }}</a>
+            @endforeach
+        </div>
+    @endif
 </div>
 <!--tags widget-->
