@@ -57,9 +57,7 @@ class PostController extends Controller
         $post->user_id = Auth::id();
         $post->save();
 
-        // 這樣寫如果 tags 是空的會有問題
-        // $tags = explode(',', $request->tags);
-        $tags = explode(',', $request->input('tags', ''));
+        $tags = $this->stringToTags($request->tags);
         $this->addTagsToPost($tags, $post);
 
         return redirect('/posts/admin');
@@ -92,9 +90,7 @@ class PostController extends Controller
         // 更新時先解除與 tag 的關聯，之後再加回新的 tag 關聯
         $post->tags()->detach();
 
-        // 這樣寫如果 tags 是空的會有問題
-        // $tags = explode(',', $request->tags);
-        $tags = explode(',', $request->input('tags', ''));
+        $tags = $this->stringToTags($request->tags);
         $this->addTagsToPost($tags, $post);
 
         return redirect('/posts/admin');
@@ -114,5 +110,16 @@ class PostController extends Controller
             // post 找到 tags attach 建立關係
             $post->tags()->attach($model->id);
         }
+    }
+
+    private function stringToTags($string)
+    {
+        $tags = explode(',', $string);
+        // 預設清掉 false 的值
+        $tags = array_filter($tags);
+        foreach ($tags as $key => $tag) {
+            $tags[$key] = trim($tag);
+        }
+        return $tags;
     }
 }
