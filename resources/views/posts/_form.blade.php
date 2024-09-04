@@ -35,6 +35,10 @@
         </select>
     </div>
     <div class="form-group">
+        <label for="tags">Tags</label>
+        <input type="text" class="form-control" name="tags" value="{{ $post->tagsString() }}">
+    </div>
+    <div class="form-group">
         <label for="content">Content</label>
         <textarea id="content" class="form-control" name="content" rows="8" cols="80">{{ $post->content }}</textarea>
     </div>

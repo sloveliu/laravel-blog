@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreBlogPost;
 use App\Post;
 use App\Category;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -51,6 +52,12 @@ class PostController extends Controller
         // 取得用戶 id 一起寫進 db
         $post->user_id = Auth::id();
         $post->save();
+
+        // 這樣寫如果 tags 是空的會有問題
+        // $tags = explode(',', $request->tags);
+        $tags = explode(',', $request->input('tags', ''));
+        $this->addTagsToPost($tags, $post);
+
         return redirect('/posts/admin');
     }
 
@@ -76,6 +83,15 @@ class PostController extends Controller
     {
         $post->fill($request->all());
         $post->save();
+
+        // 更新時先解除與 tag 的關聯，之後再加回新的 tag 關聯
+        $post->tags()->detach();
+
+        // 這樣寫如果 tags 是空的會有問題
+        // $tags = explode(',', $request->tags);
+        $tags = explode(',', $request->input('tags', ''));
+        $this->addTagsToPost($tags, $post);
+
         return redirect('/posts/admin');
     }
 
@@ -83,5 +99,15 @@ class PostController extends Controller
     {
         $post->delete();
         // return redirect('/posts/admin');
+    }
+
+    private function addTagsToPost($tags, $post)
+    {
+        foreach ($tags as $tag) {
+            // firstOrCreate 沒有資料就建立
+            $model = Tag::firstOrCreate(['name' => $tag]);
+            // post 找到 tags attach 建立關係
+            $post->tags()->attach($model->id);
+        }
     }
 }

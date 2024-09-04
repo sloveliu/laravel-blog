@@ -83,3 +83,25 @@ deleteCategory = id => {
       console.error("Error:", error);
     });
 };
+
+deleteTag = id => {
+  const ok = confirm('Are you sure you want to delete this tag?');
+  if (!ok) return;
+  const actionUrl = `/tags/${id}`;
+  fetch(actionUrl, {
+    method: "DELETE",
+    // Todo 用請求攔截器處理 header
+    headers: {
+      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+    }
+  })
+    .then(response => {
+      if (response.status !== 200) {
+        console.log("response.status", response.status);
+      }
+      location.href = "/tags";
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+};

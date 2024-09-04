@@ -26,6 +26,7 @@
             @if (@isset($post->category))
                 <small class="d-block text-muted">{{ $post->category->name }}</small>
             @endif
+            <small class="d-block text-muted">{{ $post->tagsString() }} </small>
             <small>{{ $post->user->name }}</small>
             <div class="text-left mb-3 mt-3">
                 <a href="/posts/{{ $post->id }}/edit" class="btn btn-primary">Edit</a>
