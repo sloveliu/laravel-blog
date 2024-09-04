@@ -42,11 +42,12 @@ Route::middleware(['auth'])->group(function () {
     // {post} 雖是帶 id，實際 laravel會自動轉換成 Post model，store、show、update、destroy 是照 laravel 的命名慣例
     Route::get('/posts/{post}/edit', 'PostController@edit');
     Route::post('/posts', 'PostController@store');
-    Route::get('/posts/show/{post}', 'PostController@show');
+    Route::get('/posts/show/{post}', 'PostController@showByAdmin');
     Route::put('/posts/{post}', 'PostController@update');
     Route::delete('/posts/{post}', 'PostController@destroy');
     // 建立除了 show 以外的 route https://laravel.tw/docs/5.2/controllers
     Route::resource('categories', 'CategoryController')->except(['show']);
+    Route::resource('tags', 'TagController')->only(['index', 'destroy']);
 });
 
 Route::get('/posts', 'PostController@index');

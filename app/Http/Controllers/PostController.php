@@ -64,13 +64,13 @@ class PostController extends Controller
     // 透過 Post model，laravel 會自動去處理資料
     public function show(Post $post)
     {
-        // 檢查是否有登入
-        if (Auth::check())
-            return view('posts.showByAdmin', ['post' => $post]);
-        else {
-            $categories = Category::all();
-            return view('posts.show', ['post' => $post, 'categories' => $categories]);
-        }
+        $categories = Category::all();
+        return view('posts.show', ['post' => $post, 'categories' => $categories]);
+    }
+
+    public function showByAdmin(Post $post)
+    {
+        return view('posts.showByAdmin', ['post' => $post]);
     }
 
     public function edit(Post $post)
