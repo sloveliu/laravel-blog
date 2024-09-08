@@ -32,6 +32,10 @@ window.Vue = require('vue');
 //     el: '#app',
 // });
 
+const csrf = {
+  "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+};
+
 // const deletePost = id => {
 // 改成全域宣告 = document.deletePost
 deletePost = id => {
@@ -46,18 +50,13 @@ deletePost = id => {
   // 要先在 head 裡面加入 csrf 的 meta 標籤
   fetch(actionUrl, {
     method: "DELETE",
-    // Todo 用請求攔截器處理 header
-    headers: {
-      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-    }
-  })
-    .then(response => {
+    headers: csrf
+  }).then(response => {
       if (response.status !== 200) {
         console.log("response.status", response.status);
       }
       location.href = "/posts/admin";
-    })
-    .catch(error => {
+  }).catch(error => {
       console.error("Error:", error);
     });
 };
@@ -68,18 +67,13 @@ deleteCategory = id => {
   const actionUrl = `/categories/${id}`;
   fetch(actionUrl, {
     method: "DELETE",
-    // Todo 用請求攔截器處理 header
-    headers: {
-      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-    }
-  })
-    .then(response => {
+    headers: csrf
+  }).then(response => {
       if (response.status !== 200) {
         console.log("response.status", response.status);
       }
       location.href = "/categories";
-    })
-    .catch(error => {
+  }).catch(error => {
       console.error("Error:", error);
     });
 };
@@ -90,18 +84,13 @@ deleteTag = id => {
   const actionUrl = `/tags/${id}`;
   fetch(actionUrl, {
     method: "DELETE",
-    // Todo 用請求攔截器處理 header
-    headers: {
-      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-    }
-  })
-    .then(response => {
+    headers: csrf
+  }).then(response => {
       if (response.status !== 200) {
         console.log("response.status", response.status);
       }
       location.href = "/tags";
-    })
-    .catch(error => {
+  }).catch(error => {
       console.error("Error:", error);
     });
 };
