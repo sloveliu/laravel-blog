@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tags', 'TagController')->only(['index', 'destroy']);
 });
 
+Route::resource('comments', 'CommentController')->only(['store', 'update', 'destroy']);
 Route::get('/posts', 'PostController@index');
 Route::get('/posts/category/{category}', 'PostController@indexWithCategory');
 Route::get('/posts/tag/{tag}', 'PostController@indexWithTag');

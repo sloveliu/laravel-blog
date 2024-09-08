@@ -46,12 +46,11 @@
                                     </li>
                                 @endif
                                 <li>
-                                    <i class="fa fa-comments"></i> <a href="#">4 comments</a>
+                                    <i class="fa fa-comments"></i> <a href="#">{{ $post->comments->count() }}
+                                        Comments</a>
                                 </li>
                             </ul>
-
                             <p>{{ $post->content }}</p>
-
                             <div class="inline-block">
                                 @if ($post->tags->count() > 0)
                                     <div class="widget-tags">
@@ -62,8 +61,6 @@
                                     </div>
                                 @endif
                             </div>
-
-
                             <div class="clearfix inline-block m-top-50 m-bot-50">
                                 <h6 class="text-uppercase">Share this Post </h6>
                                 <div class="widget-social-link circle">
@@ -74,10 +71,7 @@
                                     <a href="#"><i class="fa fa-behance"></i></a>
                                 </div>
                             </div>
-
-
                             <div class="pagination-row">
-
                                 <div class="pagination-post">
                                     <div class="prev-post">
                                         <a href="#">
@@ -89,13 +83,11 @@
                                             </div>
                                         </a>
                                     </div>
-
                                     <div class="post-list-link">
                                         <a href="#">
                                             <i class="fa fa-home"></i>
                                         </a>
                                     </div>
-
                                     <div class="next-post">
                                         <a href="#">
                                             <div class="arrow">
@@ -106,221 +98,96 @@
                                             </div>
                                         </a>
                                     </div>
-
                                 </div>
-
                             </div>
-
-
                             <!--comments discussion section start-->
-
                             <div class="heading-title-alt text-left heading-border-bottom">
-                                <h4 class="text-uppercase">5 Comments</h4>
+                                <h4 class="text-uppercase">{{ $post->comments->count() }} Comments</h4>
                             </div>
-
                             <ul class="media-list comments-list m-bot-50 clearlist">
-
-                                <!-- Comment Item start-->
-                                <li class="media">
-
-                                    <a class="pull-left" href="#">
-                                        <img class="media-object comment-avatar" src="/assets/img/post/a1.png"
-                                            alt="" width="50" height="50">
-                                    </a>
-
-                                    <div class="media-body">
-                                        <div class="comment-info">
-                                            <div class="comment-author">
-                                                <a href="#">John Doe</a>
-                                            </div>
-                                            July 02, 2015, at 11:34
-                                            <a href="#"><i class="fa fa-comment-o"></i>Reply</a>
-                                        </div>
-
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at magna ut
-                                            ante eleifend eleifend.
-                                        </p>
-
-                                        <!--  second level Comment start-->
-                                        <div class="media">
-
-                                            <a class="pull-left" href="#">
-                                                <img class="media-object comment-avatar" src="/assets/img/post/a1.png"
-                                                    alt="" width="50" height="50">
-                                            </a>
-
-                                            <div class="media-body">
-
-                                                <div class="comment-info">
-                                                    <div class="comment-author">
-                                                        <a href="#">Maragarita Rose</a>
-                                                    </div>
-                                                    July 02, 2015, at 11:34
-                                                    <a href="#"><i class="fa fa-comment-o"></i>Reply</a>
+                                @foreach ($post->comments as $comment)
+                                    <li class="media">
+                                        <a class="pull-left" href="#">
+                                            <img class="media-object comment-avatar" src="/assets/img/post/a1.png"
+                                                alt="" width="50" height="50">
+                                        </a>
+                                        <div class="media-body">
+                                            <div class="comment-info">
+                                                <div class="comment-author">
+                                                    <a href="#">{{ $comment->name }}</a>
+                                                    @if ($comment->user && $comment->user->id == Auth::id())
+                                                        <button class="btn btn-default"
+                                                            onclick="toggleCommentEdit(event)">edit</button>
+                                                        <button class="btn btn-danger"
+                                                            data-action="/comments/{{ $comment->id }}"
+                                                            onclick="deleteComment(event)">delete</button>
+                                                    @endif
                                                 </div>
-
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at
-                                                    magna ut ante eleifend eleifend.
-                                                </p>
-
-
-                                                <!-- third level Comment start -->
-                                                <div class="media">
-
-                                                    <a class="pull-left" href="#">
-                                                        <img class="media-object comment-avatar"
-                                                            src="/assets/img/post/a1.png" alt="" width="50"
-                                                            height="50">
-                                                    </a>
-
-                                                    <div class="media-body">
-
-                                                        <div class="comment-info">
-                                                            <div class="comment-author">
-                                                                <a href="#">Margarita Rose</a>
-                                                            </div>
-                                                            July 02, 2015, at 11:34
-                                                            <a href="#"><i class="fa fa-comment-o"></i>Reply</a>
-                                                        </div>
-
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                                                            at magna ut ante eleifend eleifend.
-                                                        </p>
-
-
-                                                    </div>
-
-                                                </div>
-                                                <!-- third level Comment end -->
-
+                                                {{-- 格式參考 https://www.php.net/manual/en/function.date.php --}}
+                                                {{-- {{ $comment->created_at->format('Y F d, G:i') . 'at ' . $comment->created_at->format('G:i') }} --}}
+                                                {{ $comment->created_at->format('Y F d G:i') }}
+                                                <a href="#"><i class="fa fa-comment-o"></i>Reply</a>
                                             </div>
-
-                                        </div>
-                                        <!-- second level Comment end -->
-
-                                    </div>
-
-                                </li>
-                                <!-- End Comment Item -->
-
-                                <!-- Comment Item start-->
-                                <li class="media">
-
-                                    <a class="pull-left" href="#">
-                                        <img class="media-object comment-avatar" src="/assets/img/post/a1.png"
-                                            alt="" width="50" height="50">
-                                    </a>
-
-                                    <div class="media-body">
-
-                                        <div class="comment-info">
-                                            <div class="comment-author">
-                                                <a href="#">John Doe</a>
+                                            <div class="comment-body">
+                                                <p class="comment-content">{{ $comment->comment }}</p>
+                                                <form action="/comments/{{ $comment->id }}" method="post">
+                                                    <input type="hidden" name="post_id" value="{{ $comment->post->id }}">
+                                                    <input type="hidden" name="name" value="{{ $comment->name }}">
+                                                    <input type="text" name="comment" value="{{ $comment->comment }}">
+                                                    <button class="comment-update">update</button>
+                                                </form>
                                             </div>
-                                            July 02, 2015, at 11:34
-                                            <a href="#"><i class="fa fa-comment-o"></i>Reply</a>
                                         </div>
-
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at magna ut
-                                            ante eleifend eleifend.
-                                        </p>
-
-                                    </div>
-
-                                </li>
-                                <!-- End Comment Item -->
-
-                                <!-- Comment Item start-->
-                                <li class="media">
-
-                                    <a class="pull-left" href="#">
-                                        <img class="media-object comment-avatar" src="/assets/img/post/a1.png"
-                                            alt="" width="50" height="50">
-                                    </a>
-
-                                    <div class="media-body">
-
-                                        <div class="comment-info">
-                                            <div class="comment-author">
-                                                <a href="#">John Doe</a>
-                                            </div>
-                                            July 02, 2015, at 11:34
-                                            <a href="#"><i class="fa fa-comment-o"></i>Reply</a>
-                                        </div>
-
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at magna ut
-                                            ante eleifend eleifend.
-                                        </p>
-
-                                    </div>
-
-                                </li>
-                                <!-- End Comment Item -->
-
+                                    </li>
+                                @endforeach
                             </ul>
-
                             <!--comments discussion section end-->
-
                             <!--comments  section start-->
-
                             <div class="heading-title-alt text-left heading-border-bottom">
                                 <h4 class="text-uppercase">Leave a Comments</h4>
                             </div>
-
-                            <form method="post" action="#" id="form" role="form" class="blog-comments">
-
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <form method="post" action="/comments" id="form" role="form"
+                                class="blog-comments">
+                                @csrf
+                                <input type="hidden" name="post_id" value="{{ $post->id }}">
                                 <div class="row">
-
                                     <div class="col-md-6 form-group">
                                         <!-- Name -->
-                                        <input type="text" name="name" id="name" class=" form-control"
-                                            placeholder="Name *" maxlength="100" required="">
+                                        @if (Auth::check())
+                                            <input type="text" name="name" id="name" class=" form-control"
+                                                placeholder="Name *" maxlength="100" value="{{ Auth::user()->name }}"
+                                                required>
+                                        @else
+                                            <input type="text" name="name" id="name" class=" form-control"
+                                                placeholder="Name *" maxlength="100" required>
+                                        @endif
                                     </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <!-- Email -->
-                                        <input type="email" name="email" id="email" class=" form-control"
-                                            placeholder="Email *" maxlength="100" required="">
-                                    </div>
-
-
-                                    <div class="form-group col-md-12">
-                                        <!-- Website -->
-                                        <input type="text" name="website" id="website" class=" form-control"
-                                            placeholder="Website" maxlength="100">
-                                    </div>
-
                                     <!-- Comment -->
                                     <div class="form-group col-md-12">
-                                        <textarea name="text" id="text" class=" form-control" rows="6" placeholder="Comment"
-                                            maxlength="400"></textarea>
+                                        <textarea name="comment" id="text" class=" form-control" rows="6" placeholder="Comment" maxlength="400"
+                                            required></textarea>
                                     </div>
-
                                     <!-- Send Button -->
                                     <div class="form-group col-md-12">
                                         <button type="submit" class="btn btn-small btn-dark-solid ">
                                             Send comment
                                         </button>
                                     </div>
-
-
                                 </div>
-
                             </form>
-
                             <!--comments  section end-->
-
-
-
                         </div>
                     </div>
                     <!--classic image post-->
-
                 </div>
                 <div class="col-md-4">
                     @include('posts._sidebar')

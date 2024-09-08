@@ -33,4 +33,9 @@ class Post extends Model
         }
         return implode(',', $tagsName);
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 }
