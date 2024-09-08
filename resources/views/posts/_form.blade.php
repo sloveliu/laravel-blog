@@ -13,7 +13,7 @@
     </div>
 @endif
 
-<form action="{{ $actionUrl }}" method="post">
+<form action="{{ $actionUrl }}" method="post" enctype="multipart/form-data">
     @csrf
     @if (!$isCreate)
         {{-- action 不支援 put 所以透過 laravel 的 _method 來達到 put 的效果 --}}
@@ -23,6 +23,16 @@
     <div class="form-group">
         <label for="title">Title</label>
         <input type="text" class="form-control" name="title" id="title" value="{{ $post->title }}">
+    </div>
+    <div class="form-group">
+        <label class="d-block" for="thumbnail">Thumbnail</label>
+        @if ($post->thumbnail)
+            <img src="{{ $post->thumbnail }}" width="320" alt="thumbnail">
+        @endif
+            <div class="custom-file">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+                <input type="file" class="custom-file-input" id="thumbnail" name="thumbnail">
+            </div>
     </div>
     <div class="form-group">
         <label for="category">Category</label>

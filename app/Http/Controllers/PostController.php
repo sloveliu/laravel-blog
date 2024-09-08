@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreBlogPost;
 use App\Post;
 use App\Category;
@@ -51,10 +52,17 @@ class PostController extends Controller
     // 方法二、透過 StoreBlogPost 來驗證資料，完成再執行 store 方法
     public function store(StoreBlogPost $request)
     {
+        // https://docs.laravel-dojo.com/laravel/5.5/filesystem
+        $path = $request->file('thumbnail')->store('public');
         $post = new Post;
         $post->fill($request->all());
         // 取得用戶 id 一起寫進 db
         $post->user_id = Auth::id();
+        // https://docs.laravel-dojo.com/laravel/5.5/filesystem
+        $path = $request->file('thumbnail')->store('public');
+        // 取得 path 為 public/thumbnails/亂數檔名
+        // 有做 link 到 /public/storage 底下要對外暴露需調整 $path 路徑
+        $post->thumbnail = str_replace('public/', '/storage/', $path);
         $post->save();
 
         $tags = $this->stringToTags($request->tags);
@@ -85,8 +93,13 @@ class PostController extends Controller
     public function update(StoreBlogPost $request, Post $post)
     {
         $post->fill($request->all());
-        $post->save();
 
+        if (!is_null($request->file('thumbnail'))) {
+            $path = $request->file('thumbnail')->store('public');
+            $post->thumbnail = str_replace('public/', '/storage/', $path);
+        }
+
+        $post->save();
         // 更新時先解除與 tag 的關聯，之後再加回新的 tag 關聯
         $post->tags()->detach();
 
