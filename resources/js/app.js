@@ -52,13 +52,13 @@ deletePost = id => {
     method: "DELETE",
     headers: csrf
   }).then(response => {
-      if (response.status !== 200) {
-        console.log("response.status", response.status);
-      }
-      location.href = "/posts/admin";
+    if (response.status !== 200) {
+      console.log("response.status", response.status);
+    }
+    location.href = "/posts/admin";
   }).catch(error => {
-      console.error("Error:", error);
-    });
+    console.error("Error:", error);
+  });
 };
 
 deleteCategory = id => {
@@ -69,13 +69,13 @@ deleteCategory = id => {
     method: "DELETE",
     headers: csrf
   }).then(response => {
-      if (response.status !== 200) {
-        console.log("response.status", response.status);
-      }
-      location.href = "/categories";
+    if (response.status !== 200) {
+      console.log("response.status", response.status);
+    }
+    location.href = "/categories";
   }).catch(error => {
-      console.error("Error:", error);
-    });
+    console.error("Error:", error);
+  });
 };
 
 deleteTag = id => {
@@ -86,11 +86,11 @@ deleteTag = id => {
     method: "DELETE",
     headers: csrf
   }).then(response => {
-      if (response.status !== 200) {
-        console.log("response.status", response.status);
-      }
-      location.href = "/tags";
+    if (response.status !== 200) {
+      console.log("response.status", response.status);
+    }
+    location.href = "/tags";
   }).catch(error => {
-      console.error("Error:", error);
-    });
+    console.error("Error:", error);
+  });
 };
