@@ -21,11 +21,12 @@ services:
     image: mysql:8.0.37
     container_name: mysql
     environment:
+      TZ: Asia/Taipei
       MYSQL_ROOT_PASSWORD: "password"
       MYSQL_ROOT_HOST: "%"
     volumes:
       - ./develop/mysql:/var/lib/mysql
-    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--init-connect="SET NAMES UTF8"', '--innodb-flush-log-at-trx-commit=0']
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--init-connect="SET NAMES UTF8"', '--innodb-flush-log-at-trx-commit=0', '--default-time-zone=+08:00']
     ports:
       - "3306:3306"
 networks:
