@@ -14,7 +14,8 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
+        // 五篇文章為一頁
+        $posts = Post::paginate(5);
         return view('posts.index', ['posts' => $posts]);
     }
 

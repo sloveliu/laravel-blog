@@ -71,26 +71,11 @@
                         </div>
                     @endforeach
                     <!--pagination-->
+                    {{-- laravel 提供的分頁方法 https://laravel.tw/docs/5.2/pagination --}}
                     <div class="text-center">
-                        <ul class="pagination custom-pagination">
-                            <li><a href="#">Prev</a>
-                            </li>
-                            <li class="active"><a href="#">1</a>
-                            </li>
-                            <li><a href="#">2</a>
-                            </li>
-                            <li><a href="#">3</a>
-                            </li>
-                            <li><a href="#">4</a>
-                            </li>
-                            <li><a href="#">5</a>
-                            </li>
-                            <li><a href="#">Next</a>
-                            </li>
-                        </ul>
+                        {!! $posts->links() !!}
                     </div>
                     <!--pagination-->
-
                 </div>
                 <div class="col-md-4">
                     @include('posts._sidebar')
