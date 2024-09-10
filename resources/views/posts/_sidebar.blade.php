@@ -3,6 +3,8 @@
     $categories = \App\Category::all();
     // tag 有文章的才取出，posts 關聯定義在 Tag model。withCount 計算 posts 數量會自動生成 property: posts_count
     $tags = \App\Tag::has('posts')->withCount('posts')->orderBy('posts_count', 'desc')->get();
+    $latestPosts = \App\Post::orderBy('created_at', 'desc')->take(5)->get();
+    $latestComments = \App\Comment::orderBy('created_at', 'desc')->take(5)->get();
 @endphp
 <!--latest post widget-->
 <div class="widget">
@@ -10,39 +12,23 @@
         <h6 class="text-uppercase">latest post</h6>
     </div>
     <ul class="widget-latest-post">
-        <li>
-            <div class="thumb">
-                <a href="#">
-                    <img src="/assets/img/post/post-thumb.jpg" alt="" />
-                </a>
-            </div>
-            <div class="w-desk">
-                <a href="#">Old Father Getup</a>
-                April 25, 2014
-            </div>
-        </li>
-        <li>
-            <div class="thumb">
-                <a href="#">
-                    <img src="/assets/img/post/post-thumb-2.jpg" alt="" />
-                </a>
-            </div>
-            <div class="w-desk">
-                <a href="#">Represent is the best way</a>
-                March 28, 2014
-            </div>
-        </li>
-        <li>
-            <div class="thumb">
-                <a href="#">
-                    <img src="/assets/img/post/post-thumb-3.jpg" alt="" />
-                </a>
-            </div>
-            <div class="w-desk">
-                <a href="#">Alone with the music</a>
-                May 05, 2014
-            </div>
-        </li>
+        @foreach ($latestPosts as $key => $post)
+            <li>
+                <div class="thumb">
+                    <a href="/posts/{{ $post->id }}">
+                        @if ($post->thumbnail)
+                            <img src="{{ $post->thumbnail }}" alt="thumbnail" />
+                        @else
+                            <img src="/assets/img/post/post-thumb.jpg" alt="thumbnail" />
+                        @endif
+                    </a>
+                </div>
+                <div class="w-desk">
+                    <a href="#">{{ $post->title }}</a>
+                    {{ $post->created_at->format('Y F d G:i') }}
+                </div>
+            </li>
+        @endforeach
     </ul>
 </div>
 <!--latest post widget-->
@@ -53,7 +39,7 @@
         <h6 class="text-uppercase">category</h6>
     </div>
     <ul class="widget-category">
-        @foreach ($categories as $key => $category)
+        @foreach ($categories as $category)
             <li>
                 <a href="/posts/category/{{ $category->id }}">{{ $category->name }}</a>
             </li>
@@ -68,14 +54,10 @@
         <h6 class="text-uppercase">Latest comments </h6>
     </div>
     <ul class="widget-comments">
-        <li>Jonathan on <a href="javascript:;">Vesti blulum quis dolor </a>
-        </li>
-        <li>Jane Doe on <a href="javascript:;">Nam sed arcu tellus</a>
-        </li>
-        <li>Margarita on <a href="javascript:;">Fringilla ut vel ipsum </a>
-        </li>
-        <li>Smith on <a href="javascript:;">Vesti blulum quis dolor sit</a>
-        </li>
+        @foreach ($latestComments as $comment)
+            <li>{{ $comment->name }} on <a href="/posts/{{ $comment->post->id }}">{{ $comment->post->title }}</a>
+            </li>
+        @endforeach
     </ul>
 </div>
 <!--comments widget-->
